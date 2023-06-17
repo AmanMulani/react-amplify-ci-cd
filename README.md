@@ -1,0 +1,1 @@
+A demo project to learn how to do CI/CD for a react project via GitHub Actions and AWS Amplify.
