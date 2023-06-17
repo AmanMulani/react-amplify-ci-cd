@@ -18,10 +18,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Amplify Front-end Redeployment
+
+      - name: Trigger Amplify Build
         run: |
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
-            -d '{}' \
-            https://amplify.us-east-1.amazonaws.com/apps/${{ secrets.AMPLIFY_PROD_APP_ID }}/branches/main/redeploys
+          curl -X POST -d {} "${{ secrets.AMPLIFY_MAIN_BRANCH_WEBHOOK }}" -H "Content-Type:application/json"
