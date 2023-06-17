@@ -1,0 +1,13 @@
+name: Deploy to prod
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Trigger Amplify Build
+        run: |
+          curl -X POST -d {} "${{ secrets.AMPLIFY_MAIN_BRANCH_WEBHOOK }}" -H "Content-Type:application/json"
