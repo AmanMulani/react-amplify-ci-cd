@@ -1,0 +1,39 @@
+name: Deploy to prod
+on:
+  workflow_dispatch:
+    inputs:
+      deployment-type:
+        description: 'Deployment type'
+        required: true
+        default: 'dev'
+        options:
+          - dev
+          - staging
+          - prod
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies and build
+        run: |
+          npm install  
+          npm run build  
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy to AWS Amplify
+        run: |
+          npm install -g @aws-amplify/cli
+          amplify publish --simple 
